@@ -12,7 +12,7 @@ namespace CushkaMVS1.Data
         {
             public int Id { get; set; }
             public string Username { get; set; }
-            public int Password { get; set; }
+            public string Password { get; set; }
             public string FullName { get; set; }
             public string Email { get; set; }
             public Roles Role { get; set; }

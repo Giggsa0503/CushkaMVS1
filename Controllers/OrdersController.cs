@@ -21,7 +21,7 @@ namespace CushkaMVS1.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var cushkaContext = _context.Orders.Include(o => o.Product);
+            var cushkaContext = _context.Orders.Include(o => o.Product).Include(o => o.User);
             return View(await cushkaContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace CushkaMVS1.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.Product)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -47,7 +48,8 @@ namespace CushkaMVS1.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id");
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullName");
             return View();
         }
 
@@ -65,6 +67,7 @@ namespace CushkaMVS1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", order.ProductId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
             return View(order);
         }
 
@@ -82,6 +85,7 @@ namespace CushkaMVS1.Controllers
                 return NotFound();
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", order.ProductId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
             return View(order);
         }
 
@@ -118,6 +122,7 @@ namespace CushkaMVS1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", order.ProductId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
             return View(order);
         }
 
@@ -131,6 +136,7 @@ namespace CushkaMVS1.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.Product)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
